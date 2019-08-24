@@ -1,2 +1,2 @@
 # java-test
-there are better projects out there 
+testing Java and Git
