@@ -1,29 +1,63 @@
-
+import java.util.Random;
 Thing floor;
 Player player;
+//Asteroid test1;
+Asteroid[] asteroids=new Asteroid[10];
 float globalx=0;
 float globaly=0;
 public void setup(){
   size(500,500);
   floor=new Thing(20,300,400,20);
   player=new Player(250,250,PI);
+  //test1=new Asteroid(30,30,0.785398,0.5,20);
+  
 }
 public void draw(){
   background(199, 199, 199);
   floor.show();
   player.show();
   player.update();
+  //test1.show();
+  //test1.update();
+}
+void generateAst(float x1, float x2, float y1, float y2, float sp1, float sp2, int num){
+  for(int i=0;i<num;i++){
+    asteroids[i]=new Asteroid(new Random().nextFloat(x1+x2)-x1, new Random().nextFloat(y1+y2)-y1, new Random().nextFloat(2*PI), new Random().nextFloat(sp1+sp2)-sp1);
+  }
 }
 public void test(){
   
 }
+
 public float getAngle(float x1, float y1, float x2, float y2) {
     float angle = (float) Math.atan2(y2 - y1, x2 - x1);
     return angle;
 }
+class Asteroid{
+  float x, y;
+  float direction,speed;
+  float size;
+  float rgb=color(171, 111, 0);
+  Asteroid(float ax, float ay, float adir, float aspeed, float asize){
+    x=ax;
+    y=ay;
+    direction=adir;
+    speed=aspeed;
+    size=asize;
+  }
+  void update(){
+    x+=cos(direction)*speed;
+    y+=sin(direction)*speed;
+  }
+  void show(){
+    fill(rgb);
+    ellipse(x-globalx, y-globaly, size, size);
+  }
+  
+}
 class Player{
-  int x=250;
-  int y=250;
+  float x=250;
+  float y=250;
   float rota;
   int rgbc=color(64, 108, 255);
   float size=20;
