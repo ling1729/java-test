@@ -27,6 +27,9 @@ public long getmill() {
         return nowMillis;
     }
 int count=0;
+public void drawbackground(){
+  //add parallax stars
+}
 public void draw() {
   background(199, 199, 199);
   floor.show();
@@ -44,11 +47,12 @@ public void draw() {
   if(count==5){
     count=0; 
     generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 1);
-  }
+    //cleanAst();
+}
 }
 void cleanAst(){
   for(int j=0;j<asteroids.length;j++){
-    if(asteroids[j]!=null&& Math.abs((float)asteroids[j].x-(float)globalx)>20000){
+    if(asteroids[j]!=null&& (Math.abs((float)asteroids[j].x-(float)globalx)>1000||Math.abs((float)asteroids[j].y-(float)globaly)>5000)){
       asteroids[j]=null;
     }
   }
@@ -60,6 +64,7 @@ void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, fl
       arlength++;
     }
   }
+  //System.out.println(arlength);
   for (int i=arlength; i<num+arlength; i++) {
     asteroids[i]=new Asteroid(randnum(x1,x2,x3,x4), randnum(y1,y2,y3,y4), (float)Math.random()*(2*PI), randnum(sp1,sp2, sp2, sp2),(float)40);
   }
