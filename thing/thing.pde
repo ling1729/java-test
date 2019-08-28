@@ -2,19 +2,31 @@ import java.util.Random; //<>//
 Thing floor;
 Player player;
 //Asteroid test1;
-Asteroid[] asteroids=new Asteroid[10];
+Asteroid[] asteroids=new Asteroid[500];
 float globalx=0;
 float globaly=0;
+int sizew=500;
+int sizeh=500;
 public void setup() {
-  size(500, 500);
+  size(500, 500); //set equal to sizew and sizeh
   floor=new Thing(20, 300, 400, 20);
-  player=new Player(250, 250, PI);
+  player=new Player((float)sizew/2, (float)sizeh/2, PI);
   //test1=new Asteroid(30,30,0.785398,0.5,20);
-  for(int i=0;i<10;i++){
-    generateAst((float)globalx-100,(float)globalx+100,(float)globaly-100,(float)globaly+100,(float)0, (float)1, 10);
+    generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
     //redo coordinate system
+}
+public float randnum(float a, float b, float c, float d){
+  if(Math.random()>0.5){
+    return (float)Math.random()*(b-a)+a;
+  } else {
+      return (float)Math.random()*(d-c)+c;
   }
 }
+public long getmill() {
+        long nowMillis = System.currentTimeMillis();
+        return nowMillis;
+    }
+int count=0;
 public void draw() {
   background(199, 199, 199);
   floor.show();
@@ -23,14 +35,33 @@ public void draw() {
   //test1.show();
   //test1.update();
   for(int i=0;i<asteroids.length;i++){
-    asteroids[i].show();
-    asteroids[i].update();
-    
+    if(asteroids[i]!=null){
+      asteroids[i].show();
+      asteroids[i].update();
+    }
+    }
+  count++;
+  if(count==5){
+    count=0; 
+    generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 1);
   }
 }
-void generateAst(float x1, float x2, float y1, float y2, float sp1, float sp2, int num) {
-  for (int i=0; i<num; i++) {
-    asteroids[i]=new Asteroid((float)Math.random()*(x2-x1)+x1, (float)Math.random()*(y2-y1)+y1, (float)Math.random()*(2*PI), (float)Math.random()*(sp2-sp1)+sp1,(float)40);
+void cleanAst(){
+  for(int j=0;j<asteroids.length;j++){
+    if(asteroids[j]!=null&& Math.abs((float)asteroids[j].x-(float)globalx)>20000){
+      asteroids[j]=null;
+    }
+  }
+}
+void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
+  int arlength=0;
+  for(int i=0;i<asteroids.length;i++){
+    if(asteroids[i]!=null){
+      arlength++;
+    }
+  }
+  for (int i=arlength; i<num+arlength; i++) {
+    asteroids[i]=new Asteroid(randnum(x1,x2,x3,x4), randnum(y1,y2,y3,y4), (float)Math.random()*(2*PI), randnum(sp1,sp2, sp2, sp2),(float)40);
   }
 }
 public void test() {
@@ -61,8 +92,8 @@ class Asteroid {
   }
 }
 class Player {
-  float x=250;
-  float y=250;
+  float x=(float)sizew/2;
+  float y=(float)sizeh/2;
   float rota;
   int rgbc=color(64, 108, 255);
   float size=20;
@@ -81,7 +112,7 @@ class Player {
     triangle(x+leng*cos(rota)*1.5f, y+leng*sin(rota)*1.5f, x+leng*cos(rota+2*PI/3), y+leng*sin(rota+2*PI/3), x+leng*cos(rota+4*PI/3), y+leng*sin(rota+4*PI/3));
   }
   public void update() {
-    rota=getAngle(250, 250, mouseX, mouseY);
+    rota=getAngle(sizew/2, sizeh/2, mouseX, mouseY);
     if (mousePressed == true) {
       xAccel = cos(rota)*accel;
       yAccel = sin(rota)*accel;
