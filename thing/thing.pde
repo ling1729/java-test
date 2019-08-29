@@ -3,6 +3,7 @@ Thing floor;
 Player player;
 //Asteroid test1;
 Asteroid[] asteroids=new Asteroid[500];
+Star[] stars=new Star[1000]; 
 float globalx=0;
 float globaly=0;
 int sizew=500;
@@ -12,8 +13,9 @@ public void setup() {
   floor=new Thing(20, 300, 400, 20);
   player=new Player((float)sizew/2, (float)sizeh/2, PI);
   //test1=new Asteroid(30,30,0.785398,0.5,20);
-    generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
-    //redo coordinate system
+  generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
+  //redo coordinate system
+  
 }
 public float randnum(float a, float b, float c, float d){
   if(Math.random()>0.5){
@@ -29,9 +31,16 @@ public long getmill() {
 int count=0;
 public void drawbackground(){
   //add parallax stars
+  for(int i=0;i<stars.length;i++){
+    if(stars[i]!=null){
+      stars[i].show();
+    }
+   }
+  
 }
 public void draw() {
   background(199, 199, 199);
+  drawbackground();
   floor.show();
   player.show();
   player.update();
@@ -44,11 +53,12 @@ public void draw() {
     }
     }
   count++;
-  if(count==5){
+  if(count==8){
     count=0; 
     generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 1);
     //cleanAst();
-}
+  }
+  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
 }
 void cleanAst(){
   for(int j=0;j<asteroids.length;j++){
@@ -68,6 +78,20 @@ void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, fl
   for (int i=arlength; i<num+arlength; i++) {
     asteroids[i]=new Asteroid(randnum(x1,x2,x3,x4), randnum(y1,y2,y3,y4), (float)Math.random()*(2*PI), randnum(sp1,sp2, sp2, sp2),(float)40);
   }
+}
+void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
+  int stlength=0;
+  for(int i=0;i<stars.length;i++){
+    if(stars[i]!=null){
+      stlength++;
+    }
+  }
+  if(!(stlength>500)){
+    for (int i=stlength; i<num+stlength; i++) {
+      stars[i]=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
+      }
+  }
+  //System.out.println(arlength);
 }
 public void test() {
 }
@@ -96,6 +120,19 @@ class Asteroid {
     ellipse(x-globalx, y-globaly, size, size);
   }
 }
+class Star {
+  float x,y,size;
+  Star(float ax, float ay, float asize){
+    x=ax;
+    y=ay;
+    size=asize;
+  }
+  public void show(){
+    fill(255);
+    circle(x-globalx, y-globaly, size);
+  }
+}
+
 class Player {
   float x=(float)sizew/2;
   float y=(float)sizeh/2;
