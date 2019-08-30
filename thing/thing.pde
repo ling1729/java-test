@@ -1,8 +1,9 @@
 import java.util.Random; //<>//
+import java.util.ArrayList;
 Thing floor;
 Player player;
 //Asteroid test1;
-Asteroid[] asteroids=new Asteroid[500];
+ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
 Star[] stars=new Star[1000]; 
 float globalx=0;
 float globaly=0;
@@ -46,11 +47,9 @@ public void draw() {
   player.update();
   //test1.show();
   //test1.update();
-  for(int i=0;i<asteroids.length;i++){
-    if(asteroids[i]!=null){
-      asteroids[i].show();
-      asteroids[i].update();
-    }
+  for(int i=0;i<asteroids.size();i++){
+      asteroids.get(i).show();
+      asteroids.get(i).update();
     }
   count++;
   if(count==8){
@@ -60,23 +59,18 @@ public void draw() {
   }
   generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
 }
+/*
 void cleanAst(){
-  for(int j=0;j<asteroids.length;j++){
-    if(asteroids[j]!=null&& (Math.abs((float)asteroids[j].x-(float)globalx)>1000||Math.abs((float)asteroids[j].y-(float)globaly)>5000)){
+  for(int j=0;j<asteroids.size();j++){
+    if((Math.abs((float)asteroids[j].x-(float)globalx)>1000||Math.abs((float)asteroids[j].y-(float)globaly)>5000)){
       asteroids[j]=null;
     }
-  }
-}
+  } //fix to arraylength
+}*/
 void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
-  int arlength=0;
-  for(int i=0;i<asteroids.length;i++){
-    if(asteroids[i]!=null){
-      arlength++;
-    }
-  }
   //System.out.println(arlength);
-  for (int i=arlength; i<num+arlength; i++) {
-    asteroids[i]=new Asteroid(randnum(x1,x2,x3,x4), randnum(y1,y2,y3,y4), (float)Math.random()*(2*PI), randnum(sp1,sp2, sp2, sp2),(float)40);
+  for (int i=0; i<num; i++) {
+    asteroids.add(new Asteroid(randnum(x1,x2,x3,x4), randnum(y1,y2,y3,y4), (float)Math.random()*(2*PI), randnum(sp1,sp2, sp2, sp2),(float)40));
   }
 }
 void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
