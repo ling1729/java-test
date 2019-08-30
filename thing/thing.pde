@@ -16,7 +16,7 @@ public void setup() {
   //test1=new Asteroid(30,30,0.785398,0.5,20);
   generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
   //redo coordinate system
-  
+  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1000);
 }
 public float randnum(float a, float b, float c, float d){
   if(Math.random()>0.5){
@@ -55,7 +55,7 @@ public void draw() {
     generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 1);
     //cleanAst();
   }
-  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
+  //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
 }
 /*
 void cleanAst(){
