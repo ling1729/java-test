@@ -4,7 +4,7 @@ Thing floor;
 Player player;
 //Asteroid test1;
 ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
-Star[] stars=new Star[1000]; 
+ArrayList<Star> stars=new ArrayList<Star>();
 float globalx=0;
 float globaly=0;
 int sizew=500;
@@ -32,15 +32,13 @@ public long getmill() {
 int count=0;
 public void drawbackground(){
   //add parallax stars
-  for(int i=0;i<stars.length;i++){
-    if(stars[i]!=null){
-      stars[i].show();
-    }
+  for(int i=0;i<stars.size();i++){
+      stars.get(i).show();
    }
   
 }
 public void draw() {
-  background(199, 199, 199);
+  background(0);
   drawbackground();
   floor.show();
   player.show();
@@ -74,16 +72,8 @@ void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, fl
   }
 }
 void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
-  int stlength=0;
-  for(int i=0;i<stars.length;i++){
-    if(stars[i]!=null){
-      stlength++;
-    }
-  }
-  if(!(stlength>500)){
-    for (int i=stlength; i<num+stlength; i++) {
-      stars[i]=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
-      }
+    for (int i=0; i<num; i++) {
+      stars.add(new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2)));
   }
   //System.out.println(arlength);
 }
