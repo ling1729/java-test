@@ -5,6 +5,7 @@ Player player;
 //Asteroid test1;
 ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
 ArrayList<Star> stars=new ArrayList<Star>();
+ArrayList<ArrayList<Star>> starChunks = new ArrayList<ArrayList<Star>>();
 float globalx=0;
 float globaly=0;
 int sizew=500;
@@ -16,7 +17,12 @@ public void setup() {
   //test1=new Asteroid(30,30,0.785398,0.5,20);
   generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
   //redo coordinate system
-  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1000);
+  
+  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
+  starChunks.add(stars);
+  stars.clear();
+  System.out.println(starChunks);
+  //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
 }
 public float randnum(float a, float b, float c, float d){
   if(Math.random()>0.5){
@@ -33,7 +39,9 @@ int count=0;
 public void drawbackground(){
   //add parallax stars
   for(int i=0;i<stars.size();i++){
-      stars.get(i).show();
+    for(int j=0;j<starChunks.size();j++){
+      starChunks.get(j).get(i).show();
+    }
    }
   
 }
@@ -114,6 +122,11 @@ class Star {
   public void show(){
     fill(255);
     circle(x-globalx, y-globaly, size);
+  }
+  public Star(Star another){
+    this.x=another.x;
+    this.y=another.y;
+    this.y=another.size;
   }
 }
 
