@@ -11,9 +11,10 @@ Star star2;
 public void setup() {
   size(500, 500); //set equal to sizew and sizeh
   generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
+  //System.out.println(stars);
   starChunks.add(stars);
   stars.clear();
-  System.out.println(starChunks);
+  //System.out.println(starChunks);
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
 }
 public float randnum(float a, float b, float c, float d){
@@ -53,11 +54,33 @@ void cleanAst(){
     }
   } //fix to arraylength
 }*/
-
+import java.io.*;
+ public static Object deepClone(Object object) {
+   try {
+     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     ObjectOutputStream oos = new ObjectOutputStream(baos);
+     oos.writeObject(object);
+     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+     ObjectInputStream ois = new ObjectInputStream(bais);
+     return ois.readObject();
+   }
+   catch (Exception e) {
+     e.printStackTrace();
+     return null;
+   }
+ }
+/**
+ * These classes implement Serializable so we can write them out and 
+ * read them back in as a stream of bytes.
+ */
 void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
     for (int i=0; i<num; i++) {
-      Star cloneStar=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
-      stars.add(cloneStar);
+      //Star cloneStar=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
+      //stars.add(cloneStar);
+      Star test=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
+      System.out.println((Star)deepClone(test));
+      //stars.add((Star)deepClone(test));
+
   }
   //System.out.println(arlength);
 }
