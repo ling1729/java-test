@@ -12,9 +12,9 @@ public void setup() {
   size(500, 500); //set equal to sizew and sizeh
   generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
   //System.out.println(stars);
-  starChunks.add(stars);
+  starChunks.add((ArrayList<Star>)stars.clone());
   stars.clear();
-  //System.out.println(starChunks);
+  System.out.println(starChunks);
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
 }
 public float randnum(float a, float b, float c, float d){
@@ -77,9 +77,7 @@ void generateStar(float x1, float x2, float y1, float y2, float size1, float siz
     for (int i=0; i<num; i++) {
       //Star cloneStar=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
       //stars.add(cloneStar);
-      Star test=new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2));
-      System.out.println((Star)deepClone(test));
-      //stars.add((Star)deepClone(test));
+      stars.add(new Star(randnum(x1,x2,x1,x2), randnum(y1,y2,y1,y2), randnum(size1,size2,size1,size2)));
 
   }
   //System.out.println(arlength);
