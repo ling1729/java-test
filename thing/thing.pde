@@ -17,9 +17,16 @@ public void setup() {
   //test1=new Asteroid(30,30,0.785398,0.5,20);
   generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
   //redo coordinate system
-  generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
-  starChunks.add((ArrayList<Star>)stars.clone());
-  stars.clear();
+  for(int i=0;i<3;i++){
+    for(int j=0;j<3;j++){
+      generateStar((float)globalx+500*(getChunkx()-1+i), (float)globalx+500*(getChunkx()-1+i)+500, (float)globaly+500*(getChunky()-1+j), (float)globaly+500*(getChunky()-1+j)+500, (float)2, (float)10, 100);
+      starChunks.add((ArrayList<Star>)stars.clone());
+      stars.clear();
+    }
+  }
+  //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
+  //starChunks.add((ArrayList<Star>)stars.clone());
+  //stars.clear();
   //System.out.println(starChunks);
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
 }
@@ -52,6 +59,8 @@ public void draw() {
   player.update();
   //test1.show();
   //test1.update();
+  System.out.print(getChunkx()+" "+getChunky());
+  System.out.println();
   for(int i=0;i<asteroids.size();i++){
       asteroids.get(i).show();
       asteroids.get(i).update();
@@ -84,7 +93,11 @@ void generateStar(float x1, float x2, float y1, float y2, float size1, float siz
   }
   //System.out.println(arlength);
 }
-public void test() {
+public int getChunkx() {
+  return (int)Math.floor(globalx/(500));
+}
+public int getChunky() {
+  return (int)Math.floor(globaly/(500));
 }
 
 public float getAngle(float x1, float y1, float x2, float y2) {
