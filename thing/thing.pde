@@ -17,11 +17,10 @@ public void setup() {
   //test1=new Asteroid(30,30,0.785398,0.5,20);
   generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
   //redo coordinate system
-  
   generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
-  starChunks.add(stars);
+  starChunks.add((ArrayList<Star>)stars.clone());
   stars.clear();
-  System.out.println(starChunks);
+  //System.out.println(starChunks);
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
 }
 public float randnum(float a, float b, float c, float d){
@@ -38,12 +37,12 @@ public long getmill() {
 int count=0;
 public void drawbackground(){
   //add parallax stars
-  for(int i=0;i<stars.size();i++){
-    for(int j=0;j<starChunks.size();j++){
-      starChunks.get(j).get(i).show();
+  for(int i=0;i<starChunks.size();i++){
+    for(int j=0;j<starChunks.get(i).size();j++){
+      starChunks.get(i).get(j).show();
+     
     }
    }
-  
 }
 public void draw() {
   background(0);
