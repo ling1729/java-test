@@ -10,6 +10,8 @@ float globalx=0;
 float globaly=0;
 int sizew=500;
 int sizeh=500;
+int chunky;
+int chunkx;
 public void setup() {
   size(500, 500); //set equal to sizew and sizeh
   floor=new Thing(20, 300, 400, 20);
@@ -19,9 +21,7 @@ public void setup() {
   //redo coordinate system
   for(int i=0;i<3;i++){
     for(int j=0;j<3;j++){
-      generateStar((float)globalx+500*(getChunkx()-1+i), (float)globalx+500*(getChunkx()-1+i)+500, (float)globaly+500*(getChunky()-1+j), (float)globaly+500*(getChunky()-1+j)+500, (float)2, (float)10, 100);
-      starChunks.add((ArrayList<Star>)stars.clone());
-      stars.clear();
+      //genChunk(i,j);
     }
   }
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
@@ -29,6 +29,30 @@ public void setup() {
   //stars.clear();
   //System.out.println(starChunks);
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
+  chunkx=getChunkx();
+  chunky=getChunky();
+}
+public void genChunk(int i, int j){ //i is y and j is x
+      generateStar((float)globalx+500*(getChunkx()-1+i), (float)globalx+500*(getChunkx()-1+i)+500, (float)globaly+500*(getChunky()-1+j), (float)globaly+500*(getChunky()-1+j)+500, (float)2, (float)10, 100);
+      starChunks.add((ArrayList<Star>)stars.clone());
+      stars.clear();
+}
+/*public void clearChunk(int x, int x2, int y, int y2){
+  for(int i=0;i<starChunks.size();i++){
+    for(int j=0;j<starChunks.get(i).size();j++){
+      if(starChunks.get(i).get(j).x-globalx>x&&starChunks.get(i).get(j).x-globalx<x2&&starChunks.get(i).get(j).y-globaly>y&&starChunks.get(i).get(j).y-globaly<y2)
+      stars.remove(
+      }
+   }
+  x-globalx, y-globaly
+}*/
+public void clearChunk(int x, int y){
+  for(int i=0;i<starChunks.size();i++){
+    for(int j=0;j<starChunks.get(i).size();j++){
+      if(starChunks.get(i).get(j).x-globalx>x&&starChunks.get(i).get(j).x-globalx<x+500&&starChunks.get(i).get(j).y-globaly>y&&starChunks.get(i).get(j).y-globaly<y+500)
+      starChunks.remove(i);
+      }
+   }
 }
 public float randnum(float a, float b, float c, float d){
   if(Math.random()>0.5){
@@ -59,12 +83,37 @@ public void draw() {
   player.update();
   //test1.show();
   //test1.update();
-  System.out.print(getChunkx()+" "+getChunky());
+  System.out.print(chunkx+" "+chunky);
   System.out.println();
   for(int i=0;i<asteroids.size();i++){
       asteroids.get(i).show();
       asteroids.get(i).update();
     }
+  if(chunkx>getChunkx()){
+    genChunk(getChunkx()+1, getChunky()-1);
+    genChunk(getChunkx()+1, getChunky());
+    genChunk(getChunkx()+1, getChunky()+1);
+    chunkx=getChunkx();
+  }
+  if(chunkx<getChunkx()){
+    genChunk(getChunkx()-1, getChunky()-1);
+    genChunk(getChunkx()-1, getChunky());
+    genChunk(getChunkx()-1, getChunky()+1);
+    chunkx=getChunkx();
+  }
+  /*
+  if(chunky>getChunky()){
+    genChunk(getChunky()-1, getChunkx()+1);
+    genChunk(getChunky(), getChunkx()+1);
+    genChunk(getChunky()+1, getChunkx()+1);
+    chunky=getChunky();
+  }
+  if(chunky<getChunky()){
+    genChunk(getChunky()-1, getChunkx()-1);
+    genChunk(getChunky(), getChunkx()-1);
+    genChunk(getChunky()+1, getChunkx()-1);
+    chunky=getChunky();
+  }*/
   count++;
   if(count==8){
     count=0; 
