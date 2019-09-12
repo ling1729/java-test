@@ -19,9 +19,9 @@ public void setup() {
   //test1=new Asteroid(30,30,0.785398,0.5,20);
   generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 10);
   //redo coordinate system
-  for(int i=0;i<3;i++){
-    for(int j=0;j<3;j++){
-      //genChunk(i,j);
+  for(int i=-1;i<2;i++){
+    for(int j=-1;j<2;j++){
+      genChunk(i,j);
     }
   }
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
@@ -33,7 +33,7 @@ public void setup() {
   chunky=getChunky();
 }
 public void genChunk(int i, int j){ //i is y and j is x
-      generateStar((float)globalx+500*(getChunkx()-1+i), (float)globalx+500*(getChunkx()-1+i)+500, (float)globaly+500*(getChunky()-1+j), (float)globaly+500*(getChunky()-1+j)+500, (float)2, (float)10, 100);
+      generateStar((float)500*(i), (float)500*(i)+500, (float)500*(j), (float)500*(j)+500, (float)2, (float)10, 30);
       starChunks.add((ArrayList<Star>)stars.clone());
       stars.clear();
 }
@@ -46,13 +46,36 @@ public void genChunk(int i, int j){ //i is y and j is x
    }
   x-globalx, y-globaly
 }*/
+/*
 public void clearChunk(int x, int y){
+  int a=0;
+  boolean breakl=false;
   for(int i=0;i<starChunks.size();i++){
-    for(int j=0;j<starChunks.get(i).size();j++){
-      if(starChunks.get(i).get(j).x-globalx>x&&starChunks.get(i).get(j).x-globalx<x+500&&starChunks.get(i).get(j).y-globaly>y&&starChunks.get(i).get(j).y-globaly<y+500)
+    if(!breakl){
+    for(int j=0;j<starChunks.get(i).size()-a;j++){
+      if(starChunks.get(i).get(j).x>x*500&&starChunks.get(i).get(j).x<x*500+500&&starChunks.get(i).get(j).y>y*500&&starChunks.get(i).get(j).y<y*500+500)
       starChunks.remove(i);
+      breakl=true;
+      a++;
+    }
       }
    }
+}*/
+public void clearChunk(){
+  int x=getChunkx(); int y=getChunky();
+  for(int i=0;i<starChunks.size();i++){
+      if(starChunks.get(i).get(0).x<(x-2)*500||starChunks.get(i).get(0).x>(x+2)*500||starChunks.get(i).get(0).y<(y-2)*500||starChunks.get(i).get(0).y>(y+2)*500)
+      starChunks.remove(i);
+      i++;
+      }
+}
+public void clearAst(){
+  int x=getChunkx(); int y=getChunky();
+  for(int i=0;i<asteroids.size();i++){
+      if(asteroids.get(i).x<(x-4)*500||asteroids.get(i).x>(x+4)*500||asteroids.get(i).y<(y-4)*500||asteroids.get(i).y>(y+4)*500)
+      asteroids.remove(i);
+      i++;
+      }
 }
 public float randnum(float a, float b, float c, float d){
   if(Math.random()>0.5){
@@ -90,30 +113,32 @@ public void draw() {
       asteroids.get(i).update();
     }
   if(chunkx>getChunkx()){
-    genChunk(getChunkx()+1, getChunky()-1);
-    genChunk(getChunkx()+1, getChunky());
-    genChunk(getChunkx()+1, getChunky()+1);
-    chunkx=getChunkx();
-  }
-  if(chunkx<getChunkx()){
     genChunk(getChunkx()-1, getChunky()-1);
     genChunk(getChunkx()-1, getChunky());
     genChunk(getChunkx()-1, getChunky()+1);
     chunkx=getChunkx();
   }
-  /*
+  if(chunkx<getChunkx()){
+    genChunk(getChunkx()+1, getChunky()-1);
+    genChunk(getChunkx()+1, getChunky());
+    genChunk(getChunkx()+1, getChunky()+1);
+    chunkx=getChunkx();
+  }
+  
   if(chunky>getChunky()){
-    genChunk(getChunky()-1, getChunkx()+1);
-    genChunk(getChunky(), getChunkx()+1);
-    genChunk(getChunky()+1, getChunkx()+1);
+    genChunk(getChunkx()-1, getChunky()-1);
+    genChunk(getChunkx(), getChunky()-1);
+    genChunk(getChunkx()+1, getChunky()-1);
     chunky=getChunky();
   }
   if(chunky<getChunky()){
-    genChunk(getChunky()-1, getChunkx()-1);
-    genChunk(getChunky(), getChunkx()-1);
-    genChunk(getChunky()+1, getChunkx()-1);
+    genChunk(getChunkx()-1, getChunky()+1);
+    genChunk(getChunkx(), getChunky()+1);
+    genChunk(getChunkx()+1, getChunky()+1);
     chunky=getChunky();
-  }*/
+  }
+  clearChunk();
+  clearAst();
   count++;
   if(count==8){
     count=0; 
