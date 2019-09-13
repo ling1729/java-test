@@ -1,4 +1,4 @@
-import java.util.Random; //<>//
+import java.util.Random; //<>// //<>//
 import java.util.ArrayList;
 Thing floor;
 Player player;
@@ -8,8 +8,8 @@ ArrayList<Star> stars=new ArrayList<Star>();
 ArrayList<ArrayList<Star>> starChunks = new ArrayList<ArrayList<Star>>();
 float globalx=0;
 float globaly=0;
-int sizew=700;
-int sizeh=700;
+int sizew=500;
+int sizeh=500;
 int chunky;
 int chunkx;
 float minStarSize=1;
@@ -35,8 +35,7 @@ public void setup() {
   chunky=getChunky();
 }
 public void genChunk(int i, int j){ //i is y and j is x
-      int area=500;
-      generateStar((float)area*(i), (float)area*(i)+area, (float)area*(j), (float)area*(j)+area, minStarSize, maxStarSize, 100);
+      generateStar((float)500*(i), (float)500*(i)+500, (float)500*(j), (float)500*(j)+500, minStarSize, maxStarSize, 100);
       starChunks.add((ArrayList<Star>)stars.clone());
       stars.clear();
 }
@@ -144,7 +143,7 @@ public void draw() {
   clearChunk();
   clearAst();
   count++;
-  if(count==20){
+  if(count==8){
     count=0; 
     generateAst((float)globalx-100,(float)globalx,(float)globalx+sizew,(float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, (float)1, (float)3, 1);
     //cleanAst();
@@ -203,19 +202,20 @@ class Asteroid {
   }
 }
 class Star {
-  float distance=0;
-  float sizeEffect=1;
+  float distance=0.2;
+  float sizeEffect=0.5;
   float x,y,size;
-  float startx=globalx;
-  float starty=globaly;
   Star(float ax, float ay, float asize){
     x=ax;
     y=ay;
     size=asize;
   }
+  float startx=(globalx-(int)Math.floor(x/(500))*500-250)*(size+1)/2+((int)Math.floor(x/(500))*500-250);
+  float starty=(globaly-(int)Math.floor(y/(500))*500-250)*(size+1)/2+((int)Math.floor(y/(500))*500-250);
+
   public void show(){
     fill(255);
-    circle(x-globalx+(distance+sizeEffect*size/maxStarSize)*(globalx-startx), y+(distance+sizeEffect*size/maxStarSize)-globaly-(distance+sizeEffect*size/maxStarSize)*(globaly-starty), size);
+    circle(x-globalx-(distance+sizeEffect*size/maxStarSize)*(globalx-startx), y-globaly-(distance+sizeEffect*size/maxStarSize)*(globaly-starty), size);
   }
   public Star(Star another){
     this.x=another.x;
