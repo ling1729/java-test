@@ -5,6 +5,7 @@ Player player;
 //Asteroid test1;
 ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
 ArrayList<Star> stars=new ArrayList<Star>();
+ArrayList<Bullet> bullets=new ArrayList<Bullet>();
 ArrayList<ArrayList<Star>> starChunks = new ArrayList<ArrayList<Star>>();
 float globalx=0;
 float globaly=0;
@@ -109,8 +110,8 @@ public void draw() {
   player.update();
   //test1.show();
   //test1.update();
-  System.out.print(chunkx+" "+chunky);
-  System.out.println();
+  //System.out.print(chunkx+" "+chunky);
+  //System.out.println();
   for(int i=0;i<asteroids.size();i++){
       asteroids.get(i).show();
       asteroids.get(i).update();
@@ -149,6 +150,11 @@ public void draw() {
     //cleanAst();
   }
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
+  if(keyPressed){
+    if(key==(char)32){
+      System.out.println("space");
+    }
+  }
 }
 /*
 void cleanAst(){
@@ -281,4 +287,18 @@ class Thing {
     fill(255);
     rect(x-globalx, y-globaly, w, h);
   }
+}
+class Bullet{
+    float x, y, r;
+    Bullet(float x, float y, float r){
+      this.x=x;
+      this.y=y;
+      this.r=r;
+    }
+    public void show(){
+      ellipse(x-globalx,y-globaly, r,r);
+    }
+    public void update(){
+      
+    }
 }
