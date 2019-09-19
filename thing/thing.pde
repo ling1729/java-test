@@ -35,7 +35,7 @@ public void setup() {
   chunky=getChunky();
 }
 public void genChunk(int i, int j){ //i is y and j is x
-      generateStar((float)500*(i), (float)500*(i)+500, (float)500*(j), (float)500*(j)+500, minStarSize, maxStarSize, 100);
+      generateStar((float)500*(i), (float)500*(i)+500, (float)500*(j), (float)500*(j)+500, minStarSize, maxStarSize, 50);
       starChunks.add((ArrayList<Star>)stars.clone());
       stars.clear();
 }
@@ -202,20 +202,19 @@ class Asteroid {
   }
 }
 class Star {
-  float distance=0.2;
+  float distance=0.1;
   float sizeEffect=0.5;
   float x,y,size;
+  float startx=globalx;
+  float starty=globaly;
   Star(float ax, float ay, float asize){
     x=ax;
     y=ay;
     size=asize;
   }
-  float startx=(globalx-(int)Math.floor(x/(500))*500-250)*(size+1)/2+((int)Math.floor(x/(500))*500-250);
-  float starty=(globaly-(int)Math.floor(y/(500))*500-250)*(size+1)/2+((int)Math.floor(y/(500))*500-250);
-
   public void show(){
     fill(255);
-    circle(x-globalx-(distance+sizeEffect*size/maxStarSize)*(globalx-startx), y-globaly-(distance+sizeEffect*size/maxStarSize)*(globaly-starty), size);
+    ellipse(x-globalx-(distance+sizeEffect*size/maxStarSize)*(globalx-startx), y-globaly-(distance+sizeEffect*size/maxStarSize)*(globaly-starty), size, size);
   }
   public Star(Star another){
     this.x=another.x;
@@ -233,7 +232,7 @@ class Player {
   float xVel=0;
   float yVel=0;
   float xAccel=0, yAccel=0;
-  float friction=0.075f;
+  float friction=0.05f;
   float speed=1f;
   float accel=0.2f;
   Player(float ax, float ay, float rotat) {
