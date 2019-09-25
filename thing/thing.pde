@@ -34,6 +34,7 @@ public void setup() {
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)2, (float)10, 100);
   chunkx=getChunkx();
   chunky=getChunky();
+  bullets.add(new Bullet(250,250,5,player.rota));
 }
 public void genChunk(int i, int j) { //i is y and j is x
   generateStar((float)500*(i), (float)500*(i)+500, (float)500*(j), (float)500*(j)+500, minStarSize, maxStarSize, 50);
@@ -69,7 +70,10 @@ public void clearChunk() {
   int x=getChunkx(); 
   int y=getChunky();
   for (int i=0; i<starChunks.size(); i++) {
-    if (starChunks.get(i).get(0).x<(x-loadlimit)*500||starChunks.get(i).get(0).x>(x+loadlimit)*500||starChunks.get(i).get(0).y<(y-loadlimit)*500||starChunks.get(i).get(0).y>(y+loadlimit)*500)
+    if (starChunks.get(i).get(0).x<(x-loadlimit+1)*500||
+      starChunks.get(i).get(0).x>(x+loadlimit)*500||
+      starChunks.get(i).get(0).y<(y-loadlimit+1)*500||
+      starChunks.get(i).get(0).y>(y+loadlimit)*500)
       starChunks.remove(i);
     i++;
   }
@@ -153,18 +157,17 @@ public void draw() {
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
   if (keyPressed) {
     if (key==(char)32) {
-      System.out.println("space");
+      System.out.println(player.rota);
+      bullets.add(new Bullet(globalx+250,globaly+250,5,player.rota));
     }
   }
+  for(int i=0;i<bullets.size();i++){
+    bullets.get(i).update();
+    bullets.get(i).show();
+  }
+  
 }
-/*
-void cleanAst(){
- for(int j=0;j<asteroids.size();j++){
- if((Math.abs((float)asteroids[j].x-(float)globalx)>1000||Math.abs((float)asteroids[j].y-(float)globaly)>5000)){
- asteroids[j]=null;
- }
- } //fix to arraylength
- }*/
+
 void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
   //System.out.println(arlength);
   for (int i=0; i<num; i++) {
@@ -242,6 +245,7 @@ class Player {
   float friction=0.05f;
   float speed=1f;
   float accel=0.2f;
+
   Player(float ax, float ay, float rotat) {
     rota=rotat;
   }
@@ -289,16 +293,22 @@ class Thing {
     rect(x-globalx, y-globaly, w, h);
   }
 }
+
 class Bullet {
-  float x, y, r;
-  Bullet(float x, float y, float r) {
-    this.x=x;
-    this.y=y;
-    this.r=r;
+  float x, y, r, rota;
+  float speed=10;
+  Bullet(float ax, float ay, float ar, float adir) {
+    this.x=ax;
+    this.y=ay;
+    this.r=ar;
+    this.rota=adir;
   }
   public void show() {
+    fill(255,0,0);
     ellipse(x-globalx, y-globaly, r, r);
   }
   public void update() {
+    x+=cos(rota)*speed;
+    y+=sin(rota)*speed;
   }
 }
