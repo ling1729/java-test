@@ -155,19 +155,23 @@ public void draw() {
     //cleanAst();
   }
   //generateStar((float)globalx-100, (float)globalx+600, (float)globaly-100, (float)globaly+600, (float)1, (float)5, 1);
+  count2++;
   if (keyPressed) {
     if (key==(char)32) {
-      System.out.println(player.rota);
-      bullets.add(new Bullet(globalx+250,globaly+250,5,player.rota));
+      if(count2>10){
+        System.out.println(player.rota);
+        bullets.add(new Bullet(globalx+250,globaly+250,5,player.rota));
+        count2=0;
+      }
     }
   }
   for(int i=0;i<bullets.size();i++){
     bullets.get(i).update();
     bullets.get(i).show();
   }
-  
+  count2++;
 }
-
+int count2=0;
 void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
   //System.out.println(arlength);
   for (int i=0; i<num; i++) {
@@ -242,9 +246,9 @@ class Player {
   float xVel=0;
   float yVel=0;
   float xAccel=0, yAccel=0;
-  float friction=0.05f;
-  float speed=1f;
-  float accel=0.2f;
+  float friction=0.05;
+  float speed=0.75f;
+  float accel=0.15f;
 
   Player(float ax, float ay, float rotat) {
     rota=rotat;
@@ -259,8 +263,8 @@ class Player {
     if (mousePressed == true) {
       xAccel = cos(rota)*accel;
       yAccel = sin(rota)*accel;
-      xVel += xAccel;
-      yVel += yAccel;
+      xVel += Math.abs(xAccel)<0.75?xAccel:0;
+      yVel += Math.abs(yAccel)<0.75?yAccel:0;
     }
     globalx+=xVel*speed;
     globaly+=yVel*speed;
