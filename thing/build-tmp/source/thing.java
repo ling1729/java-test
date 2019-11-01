@@ -1,5 +1,24 @@
-import java.util.Random; //<>// //<>//
-import java.util.ArrayList;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.Random; 
+import java.util.ArrayList; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class thing extends PApplet {
+
+ //<>// //<>//
+
 Thing floor;
 Player player;
 ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
@@ -15,7 +34,7 @@ int chunkx;
 float minStarSize=1;
 float maxStarSize=10;
 public void setup() {
-  size(500, 500); //set equal to sizew and sizeh
+   //set equal to sizew and sizeh
   floor=new Thing(20, 300, 400, 20);
   player=new Player((float)sizew/2, (float)sizeh/2, PI);
   generateAst((float)globalx-100, (float)globalx, (float)globalx+sizew, (float)globalx+sizew+100, (float)globaly-100, (float)globaly, (float) globaly+sizeh, (float) globaly+sizeh+100, 1, 3, 10);
@@ -57,7 +76,7 @@ public void clearAst() {
   }
 }
 public float randnum(float a, float b, float c, float d) {
-  if (Math.random()>0.5) {
+  if (Math.random()>0.5f) {
     return (float)Math.random()*(b-a)+a;
   } else {
     return (float)Math.random()*(d-c)+c;
@@ -133,13 +152,13 @@ public void draw() {
   count2++;
 }
 int count2=0;
-void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
+public void generateAst(float x1, float x2, float  x3, float x4, float y1, float y2, float y3, float y4, float sp1, float sp2, int num) {
   //System.out.println(arlength);
   for (int i=0; i<num; i++) {
     asteroids.add(new Asteroid(randnum(x1, x2, x3, x4), randnum(y1, y2, y3, y4), (float)Math.random()*(2*PI), randnum(sp1, sp2, sp2, sp2), (float)40));
   }
 }
-void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
+public void generateStar(float x1, float x2, float y1, float y2, float size1, float size2, int num) {
   for (int i=0; i<num; i++) {
     stars.add(new Star(randnum(x1, x2, x1, x2), randnum(y1, y2, y1, y2), randnum(size1, size2, size1, size2)));
   }
@@ -183,8 +202,8 @@ class Asteroid {
   }
 }
 class Star {
-  float distance=0.1;
-  float sizeEffect=0.5;
+  float distance=0.1f;
+  float sizeEffect=0.5f;
   float x, y, size;
   float startx=globalx;
   float starty=globaly;
@@ -219,7 +238,7 @@ class Player {
   float xVel=0;
   float yVel=0;
   float xAccel=0, yAccel=0;
-  float friction=0.05;
+  float friction=0.05f;
   float speed=0.75f;
   float accel=0.15f;
 
@@ -236,8 +255,8 @@ class Player {
     if (mousePressed == true) {
       xAccel = cos(rota)*accel;
       yAccel = sin(rota)*accel;
-      xVel += Math.abs(xAccel)<0.75?xAccel:0;
-      yVel += Math.abs(yAccel)<0.75?yAccel:0;
+      xVel += Math.abs(xAccel)<0.75f?xAccel:0;
+      yVel += Math.abs(yAccel)<0.75f?yAccel:0;
     }
     globalx+=xVel*speed;
     globaly+=yVel*speed;
@@ -287,5 +306,15 @@ class Bullet {
   public void update() {
     x+=cos(rota)*speed;
     y+=sin(rota)*speed;
+  }
+}
+  public void settings() {  size(500, 500); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "thing" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
   }
 }
