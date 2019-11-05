@@ -15,7 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class thing extends PApplet {
+public class test extends PApplet {
 
  //<>// //<>//
 
@@ -131,7 +131,6 @@ public void draw() {
   }
   clearChunk();
   clearAst();
-  System.out.println(bullets);
   count++;
   if (count==8) {
     count=0; 
@@ -176,6 +175,7 @@ public float getAngle(float x1, float y1, float x2, float y2) {
   float angle = (float) Math.atan2(y2 - y1, x2 - x1);
   return angle;
 }
+
 class Asteroid {
   float x, y;
   float direction, speed;
@@ -311,7 +311,7 @@ class Bullet {
 }
   public void settings() {  size(500, 500); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "thing" };
+    String[] appletArgs = new String[] { "test" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
